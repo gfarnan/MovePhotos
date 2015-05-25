@@ -1,0 +1,27 @@
+Mon May 25 13:01:38 BST 2015 CONFIG Number of photographs found:5
+Mon May 25 13:01:38 BST 2015 CONFIG Checking Directory C:\Users\gfarnan\workspace\temp
+Mon May 25 13:01:38 BST 2015 CONFIG File IMG_0268.jpg: Created on Oct 2010
+Mon May 25 13:01:38 BST 2015 CONFIG Returning folders from C:\Users\gfarnan\workspace\temp\2010
+Mon May 25 13:01:38 BST 2015 CONFIG Returning 0 folders from C:\Users\gfarnan\workspace\temp\2010
+Mon May 25 13:01:38 BST 2015 CONFIG File IMG_0506.jpg: Created on Feb 2011
+Mon May 25 13:01:38 BST 2015 CONFIG Returning folders from C:\Users\gfarnan\workspace\temp\2011
+Mon May 25 13:01:38 BST 2015 CONFIG Returning 1 folders from C:\Users\gfarnan\workspace\temp\2011
+Mon May 25 13:01:38 BST 2015 CONFIG Looking in folder:C:\Users\gfarnan\workspace\temp\2011\jan & feb
+Mon May 25 13:01:38 BST 2015 INFO Moving IMG_0506.jpg to C:\Users\gfarnan\workspace\temp\2011\jan & feb
+Mon May 25 13:01:38 BST 2015 INFO File is failed to move!
+Mon May 25 13:01:38 BST 2015 CONFIG File IMG_0559.jpg: Created on Feb 2011
+Mon May 25 13:01:38 BST 2015 CONFIG Returning folders from C:\Users\gfarnan\workspace\temp\2011
+Mon May 25 13:01:38 BST 2015 CONFIG Returning 1 folders from C:\Users\gfarnan\workspace\temp\2011
+Mon May 25 13:01:38 BST 2015 CONFIG Looking in folder:C:\Users\gfarnan\workspace\temp\2011\jan & feb
+Mon May 25 13:01:38 BST 2015 INFO Moving IMG_0559.jpg to C:\Users\gfarnan\workspace\temp\2011\jan & feb
+Mon May 25 13:01:38 BST 2015 INFO File is failed to move!
+Mon May 25 13:01:38 BST 2015 CONFIG File IMG_0575.jpg: Created on Mar 2011
+Mon May 25 13:01:38 BST 2015 CONFIG Returning folders from C:\Users\gfarnan\workspace\temp\2011
+Mon May 25 13:01:38 BST 2015 CONFIG Returning 1 folders from C:\Users\gfarnan\workspace\temp\2011
+Mon May 25 13:01:38 BST 2015 CONFIG Looking in folder:C:\Users\gfarnan\workspace\temp\2011\jan & feb
+Mon May 25 13:01:38 BST 2015 INFO No Folder for IMG_0575.jpg: Created on Mar 2011
+Mon May 25 13:01:38 BST 2015 CONFIG File IMG_0578 (2).jpg: Created on Mar 2011
+Mon May 25 13:01:38 BST 2015 CONFIG Returning folders from C:\Users\gfarnan\workspace\temp\2011
+Mon May 25 13:01:38 BST 2015 CONFIG Returning 1 folders from C:\Users\gfarnan\workspace\temp\2011
+Mon May 25 13:01:38 BST 2015 CONFIG Looking in folder:C:\Users\gfarnan\workspace\temp\2011\jan & feb
+Mon May 25 13:01:38 BST 2015 INFO No Folder for IMG_0578 (2).jpg: Created on Mar 2011
