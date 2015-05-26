@@ -10,6 +10,7 @@
         <directory>src/main/resources</directory>
         <excludes>
           <exclude>**/*.java</exclude>
+          <exclude>**/*.properties</exclude>          
         </excludes>
       </resource>
     </resources>

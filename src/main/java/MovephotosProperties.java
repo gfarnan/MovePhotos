@@ -14,11 +14,13 @@ public class MovephotosProperties {
 	{
 		//Private constructor to restrict new instances
 		InputStream in = this.getClass().getClassLoader().getResourceAsStream("movephotos.properties");
-		logger.log(Level.CONFIG,"Read all properties from file");
-		try {
-			configProp.load(in);
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (in!=null){		
+			logger.log(Level.CONFIG,"Read all properties from file");
+			try {
+				configProp.load(in);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -32,6 +34,14 @@ public class MovephotosProperties {
 	{
 		return LazyHolder.INSTANCE;
 	}
+	
+	public String getProperty(String key, String defaultValue){
+		if (!configProp.isEmpty() && configProp.getProperty(key)!=null){
+			return configProp.getProperty(key);
+		}
+		return defaultValue;
+	}
+	
 	public String getProperty(String key){
 		return configProp.getProperty(key);
 	}

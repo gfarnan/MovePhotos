@@ -27,11 +27,11 @@ public class MovePhotos {
 	
 	public MovePhotos(){
 	
-		logfile = MovephotosProperties.getInstance().getProperty("logFile");
-		logLevel = MovephotosProperties.getInstance().getProperty("logLevel");
-		test = Boolean.parseBoolean(MovephotosProperties.getInstance().getProperty("test"));
-		inDir = MovephotosProperties.getInstance().getProperty("From_Folder");
-		outDir = MovephotosProperties.getInstance().getProperty("To_Folder");
+		logfile = MovephotosProperties.getInstance().getProperty("logFile","logDetails.log");
+		logLevel = MovephotosProperties.getInstance().getProperty("logLevel","CONFIG");
+		test = Boolean.parseBoolean(MovephotosProperties.getInstance().getProperty("test","no"));
+		inDir = MovephotosProperties.getInstance().getProperty("From_Folder","temp");
+		outDir = MovephotosProperties.getInstance().getProperty("To_Folder","temp");
 		
 		System.out.println ("Moving photos from "+inDir+" to "+outDir);
 		
