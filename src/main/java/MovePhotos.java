@@ -15,6 +15,7 @@ import java.io.FilenameFilter;
  */
 public class MovePhotos {
 	private static final String JPG = "jpg";	
+	private static final String PNG = "png";	
 	private static final Logger logger = Logger.getLogger( MovePhotos.class.getName() );
 	private static FileHandler fh = null;
 	private String logfile;
@@ -65,7 +66,11 @@ public class MovePhotos {
 	 * @param dir String
 	 * @return photographs */
 	private Photograph[] getFiles(String dir) {
-		GenericExtFilter filter = new GenericExtFilter(JPG);
+		FilenameFilter filter = new FilenameFilter(){
+			public boolean accept(File dir, String name) {
+				return (name.toLowerCase().endsWith(JPG)) || (name.toLowerCase().endsWith(PNG));
+			}
+		};
 		return listFiles(dir, filter);
 	}
 
@@ -89,25 +94,53 @@ public class MovePhotos {
 		return photographs;
 	}
 
+
+	/**
+	 * Method makeMissingDir.
+	 * @param inDir String
+	
+	 * @return File */
+	private File makeMissingDir(String inDir){
+		logger.log(Level.CONFIG,"Make Folder:"+ inDir);		
+		File newFolder = new File(inDir);
+		logger.log(Level.CONFIG,"Make Folder? "+newFolder.mkdir());					
+		return newFolder;
+	}
+	
 	/**
 	 *  Return a list of Folders in a directory
 	
-	
-	 * @param dir String
+	 * @param inDir String
+	 * @param photograph Photograph
 	 * @return folders */
-	private File[] getFolders(String dir) {
+	private File getFolders(String inDir, Photograph photograph) {
+		String dir = inDir + "\\" + photograph.getYear();
 		File[] files = new File(dir).listFiles();
 		logger.log(Level.CONFIG,"Returning folders from " + dir);		
-		File[] folders = new File[0];
+		File folder = null;
 		if (files != null) {
-			folders = new File[files.length];
-			for (int i = 0; i < files.length; i++) {
-				if (files[i].isDirectory()) {
-					folders[i] = files[i];
+			if (files.length>0){
+				for (int i = 0; i < files.length; i++) {
+					if ((files[i].isDirectory()) && correctFolder(files[i], photograph)){
+						folder = files[i];
+					}
+				}
+				if (folder==null){
+					//No Folder so need to make it
+					folder = makeMissingDir(dir+"\\"+photograph.getMonth());
 				}
 			}
+			else {
+				//No Folder so need to make it
+				folder = makeMissingDir(dir+"\\"+photograph.getMonth());				
+			}
 		}
-		return folders;
+		else {
+			//No Folder so need to make it
+			makeMissingDir(dir);			
+			folder = makeMissingDir(dir+"\\"+photograph.getMonth());				
+		}
+		return folder;
 	}
 
 	/**
@@ -142,25 +175,18 @@ public class MovePhotos {
 		for (Photograph photograph : photos) {
 			logger.log(Level.CONFIG,"File " + photograph.toString());
 			// Get Date/Month from Picture
-			File[] folders = getFolders(outDir + "\\" + photograph.getYear());
-			logger.log(Level.CONFIG,"Returning "+folders.length+" folders from " + new File(outDir + "\\" + photograph.getYear()));
-
-			for (File folder : folders) {
-				// Find matching month in folder
-				logger.log(Level.CONFIG,"Looking in folder:" + folder);
-				if (correctFolder(folder, photograph)) {
-					// Move picture to folder
-					logger.log(Level.INFO, "Moving "+photograph.getName() +" to "+folder.getAbsolutePath() );
-					if (!test){
-						if (photograph.renameTo(new File(folder.getAbsolutePath()+ "\\" + photograph.getName()))) {
-							logger.log(Level.INFO,"File is moved successful!");
-						} else {
-							logger.log(Level.INFO,"File is failed to move!");
-						}
+			File folder = getFolders(outDir, photograph);
+			// Find matching month in folder
+			logger.log(Level.CONFIG,"Looking in folder:" + folder);
+			if (correctFolder(folder, photograph)) {
+				// Move picture to folder
+				logger.log(Level.INFO, "Moving "+photograph.getName() +" to "+folder.getAbsolutePath() );
+				if (!test){
+					if (photograph.renameTo(new File(folder.getAbsolutePath()+ "\\" + photograph.getName()))) {
+						logger.log(Level.INFO,"File is moved successful!");
+					} else {
+						logger.log(Level.INFO,"File is failed to move!");
 					}
-				}
-				else {
-					logger.log(Level.INFO, "No Folder for "+photograph );
 				}
 			}
 		}
@@ -230,39 +256,6 @@ public class MovePhotos {
 			return this.year;
 		}
 
-	}
-
-	/**
-	 * inner class, generic extension filter
-	 * @author gfarnan
-	 *
-	 * @version $Revision: 1.0 $
-	 */
-	public class GenericExtFilter implements FilenameFilter {
-
-		private String ext;
-
-		/**
-		 * Constructor for GenericExtFilter.
-		 * @param ext String
-		 */
-		public GenericExtFilter(String ext) {
-			this.ext = ext;
-		}
-
-		/**
-		 * Method accept.
-		 * @param dir File
-		 * @param name String
-		
-		
-		
-		
-		 * @return boolean * @see java.io.FilenameFilter#accept(File, String) * @see java.io.FilenameFilter#accept(File, String) * @see java.io.FilenameFilter#accept(File, String) * @see java.io.FilenameFilter#accept(File, String)
-		 */
-		public boolean accept(File dir, String name) {
-			return (name.endsWith(ext));
-		}
 	}
 
 	/**

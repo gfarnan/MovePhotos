@@ -1,4 +1,5 @@
 import java.io.File;
+import java.nio.file.Files;
 //import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,6 +34,7 @@ public class MovePhotosTest {
 	 * Run the MovePhotos() constructor test.
 	 *
 	 * @generatedBy CodePro at 20/05/15 11:54
+	 * @throws Exception
 	 */
 	@Test
 	public void testMovePhotos_AssertObjectNotNull()
@@ -46,10 +48,10 @@ public class MovePhotosTest {
 	/**
 	 * Run the void move(String,String) method test.
 	 * Test for Empty Input Folder
-	 * @throws Exception
+	
 	 *
 	 * @generatedBy CodePro at 20/05/15 11:54
-	 */
+	 * @throws Exception */
 	@Test
 	public void testMove_BlankDirectories() throws Exception {
 		MovePhotos fixture = new MovePhotos();
@@ -59,14 +61,14 @@ public class MovePhotosTest {
 
 		// add additional test code here
 	}
-
+	
 	/**
 	 * Run the void move(String,String) method test.
 	 * One File but not a picture
-	 * @throws Exception
+	
 	 *
 	 * @generatedBy CodePro at 20/05/15 11:54
-	 */
+	 * @throws Exception */
 	@Test
 	public void testMove_NoPicutureFiles() throws Exception {
 		MovePhotos fixture = new MovePhotos();
@@ -78,10 +80,10 @@ public class MovePhotosTest {
 	/**
 	 * Run the void move(String,String) method test.
 	 * 
-	 * @throws Exception
+	
 	 *
 	 * @generatedBy CodePro at 20/05/15 11:54
-	 */
+	 * @throws Exception */
 	@Test
 	public void testMove_OnePicture() throws Exception {
 		MovePhotos fixture = new MovePhotos();
@@ -95,10 +97,10 @@ public class MovePhotosTest {
 	/**
 	 * Run the void move(String,String) method test.
 	 *
-	 * @throws Exception
+	
 	 *
 	 * @generatedBy CodePro at 20/05/15 11:54
-	 */
+	 * @throws Exception */
 	@Test
 	public void testMove_4()
 		throws Exception {
@@ -115,11 +117,11 @@ public class MovePhotosTest {
 	 * Perform pre-test initialization.
 	 * Set up Temporary Files and Folders for Testing
 	 *
-	 * @throws Exception
-	 *         if the initialization fails for some reason
+	
 	 *
 	 * @generatedBy CodePro at 20/05/15 11:54
-	 */
+	 * @throws Exception
+	 *         if the initialization fails for some reason */
 	@Before
 	public void setUp() throws Exception {
 		inFolder = folder.newFolder("in");
@@ -140,11 +142,11 @@ public class MovePhotosTest {
 	/**
 	 * Perform post-test clean-up.
 	 *
-	 * @throws Exception
-	 *         if the clean-up fails for some reason
+	
 	 *
 	 * @generatedBy CodePro at 20/05/15 11:54
-	 */
+	 * @throws Exception
+	 *         if the clean-up fails for some reason */
 	@After
 	public void tearDown()
 		throws Exception {
