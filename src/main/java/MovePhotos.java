@@ -16,6 +16,8 @@ import java.io.FilenameFilter;
 public class MovePhotos {
 	private static final String JPG = "jpg";	
 	private static final String PNG = "png";	
+	private static final String MOV = "mov";
+	private static final String DOTMOV = ".MOV";
 	private static final Logger logger = Logger.getLogger( MovePhotos.class.getName() );
 	private static FileHandler fh = null;
 	private String logfile;
@@ -23,6 +25,7 @@ public class MovePhotos {
 	private Boolean test;
 	private String inDir;
 	private String outDir;
+	private String videoDir;	
 	
 	
 	
@@ -33,6 +36,7 @@ public class MovePhotos {
 		test = Boolean.parseBoolean(MovephotosProperties.getInstance().getProperty("test","no"));
 		inDir = MovephotosProperties.getInstance().getProperty("From_Folder","temp");
 		outDir = MovephotosProperties.getInstance().getProperty("To_Folder","temp");
+		videoDir = MovephotosProperties.getInstance().getProperty("Video_Folder","temp");		
 		
 		System.out.println ("Moving photos from "+inDir+" to "+outDir);
 		
@@ -65,7 +69,7 @@ public class MovePhotos {
 	
 	 * @param dir String
 	 * @return photographs */
-	private Photograph[] getFiles(String dir) {
+	private Media[] getPhotos(String dir) {
 		FilenameFilter filter = new FilenameFilter(){
 			public boolean accept(File dir, String name) {
 				return (name.toLowerCase().endsWith(JPG)) || (name.toLowerCase().endsWith(PNG));
@@ -75,20 +79,35 @@ public class MovePhotos {
 	}
 
 	/**
+	 * Method getVideos.
+	 * @param dir String
+	 * @return Media[]
+	 */
+	private Media[] getVideos(String dir) {
+		FilenameFilter filter = new FilenameFilter(){
+			public boolean accept(File dir, String name) {
+				return (name.toLowerCase().endsWith(MOV));
+			}
+		};
+		return listFiles(dir, filter);
+	}
+	
+	
+	/**
 	 * Filter a list of Files to return only Photographs
 	
 	 * @param filter
 	
 	 * @param dir String
 	 * @return photographs */
-	private Photograph[] listFiles(String dir, FilenameFilter filter) {
+	private Media[] listFiles(String dir, FilenameFilter filter) {
 		File[] files = new File(dir).listFiles(filter);
-		Photograph[] photographs = new Photograph[0];
+		Media[] photographs = new Media[0];
 		if (files != null) {
 			logger.log(Level.CONFIG,"Number of photographs found:"+ files.length);
-			photographs = new Photograph[files.length];
+			photographs = new Media[files.length];
 			for (int i = 0; i < files.length; i++) {
-				photographs[i] = new Photograph(files[i]);
+				photographs[i] = new Media(files[i]);
 			}
 		}
 		return photographs;
@@ -113,7 +132,7 @@ public class MovePhotos {
 	 * @param inDir String
 	 * @param photograph Photograph
 	 * @return folders */
-	private File getFolders(String inDir, Photograph photograph) {
+	private File getFolders(String inDir, Media photograph) {
 		String dir = inDir + "\\" + photograph.getYear();
 		File[] files = new File(dir).listFiles();
 		logger.log(Level.CONFIG,"Returning folders from " + dir);		
@@ -149,7 +168,7 @@ public class MovePhotos {
 	 * @param photograph
 	
 	 * @return boolean */
-	private boolean correctFolder(File folder, Photograph photograph) {
+	private boolean correctFolder(File folder, Media photograph) {
 		return (folder.getName().toLowerCase().contains(photograph.getMonth().toLowerCase()));
 	}
 
@@ -169,10 +188,11 @@ public class MovePhotos {
 	public void move(String inDir, String outDir) {
 
 		// Cycle through list
-		Photograph[] photos = getFiles(inDir);
+		Media[] photos = getPhotos(inDir);
+		Media[] videos = getVideos(inDir);		
 		logger.log(Level.CONFIG,"Checking Directory " + inDir);
 
-		for (Photograph photograph : photos) {
+		for (Media photograph : photos) {
 			logger.log(Level.CONFIG,"File " + photograph.toString());
 			// Get Date/Month from Picture
 			File folder = getFolders(outDir, photograph);
@@ -190,6 +210,18 @@ public class MovePhotos {
 				}
 			}
 		}
+		
+		for (Media video : videos) {
+			logger.log(Level.CONFIG,"File " + video.toString());
+			logger.log(Level.INFO, "Moving "+ video.getName() +" to "+videoDir );
+			if (!test){
+				if (video.renameTo(new File(videoDir+"\\" + video.getName().replaceAll(DOTMOV, "")+"-"+System.currentTimeMillis()+DOTMOV))) {
+					logger.log(Level.INFO,"File is moved successful!");
+				} else {
+					logger.log(Level.INFO,"File is failed to move!");
+				}
+			}
+		}
 	}
 
 	/**
@@ -198,21 +230,22 @@ public class MovePhotos {
 	 *
 	 * @version $Revision: 1.0 $
 	 */
-	public class Photograph extends File {
+	public class Media extends File {
 		private String name;
 		private String month;
 		private String year;
 
 		/**
 		 * Constructor for Photograph.
-		 * @param photo File
+		
+		 * @param media File
 		 */
-		public Photograph(File photo) {
-			super(photo.getPath());
+		public Media(File media) {
+			super(media.getPath());
 			try {
 
-				this.name = photo.getName();
-				BasicFileAttributes attributes = Files.readAttributes(photo.toPath(), BasicFileAttributes.class);
+				this.name = media.getName();
+				BasicFileAttributes attributes = Files.readAttributes(media.toPath(), BasicFileAttributes.class);
 				Date creationDate = new Date(attributes.lastModifiedTime().to(TimeUnit.MILLISECONDS));
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(creationDate);
